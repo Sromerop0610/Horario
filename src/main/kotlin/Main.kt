@@ -1,30 +1,24 @@
 fun main() {
 
-    val slot1 = TimeSlot("08:00", "09:00")
-    val slot2 = TimeSlot("09:00", "10:00")
-
-    val subjectsSlot1 = mapOf(
-        DayOfWeek.MONDAY to "Math",
-        DayOfWeek.TUESDAY to "History"
-    )
-
-    val subjectsSlot2 = mapOf(
-        DayOfWeek.MONDAY to "English",
-        DayOfWeek.TUESDAY to "PE"
-    )
-
-    val inputData = TimeTableInputData(
-        groupName = "1DAW",
-        timeSlots = listOf(slot1, slot2),
-        subjectsBySlot = mapOf(
-            slot1 to subjectsSlot1,
-            slot2 to subjectsSlot2
-        )
-    )
-
+    val input = ConsoleInput()
     val builder = TimeTableBuilder()
-    val timetable = builder.build(inputData)
 
-    println(timetable)
+    println("¿Cómo quieres mostrar el horario?")
+    println("1. Formato manual")
+    println("2. Usando librería")
+    print("Elige una opción (1 o 2): ")
+
+    val option = readLine()
+
+    val writer: TimeTableWriter = when (option) {
+        "1" -> ManualTimeTableWriter()
+        "2" -> LibraryTimeTableWriter()
+        else -> {
+            println("Opción no válida, se usará formato manual por defecto.")
+            ManualTimeTableWriter()
+        }
+    }
+
+    val manager = TimeTableManager(input, builder, writer)
+    manager.execute()
 }
-

@@ -8,7 +8,7 @@ class TimeTableBuilder {
         for ((timeSlot, subjectsByDay) in inputData.subjectsBySlot) {
             val row = TimeTableRow(
                 timeSlot = timeSlot,
-                subjectsBySlot = subjectsByDay
+                subjectsByDay = subjectsByDay
             )
             rows.add(row)
         }

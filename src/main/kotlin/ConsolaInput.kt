@@ -18,7 +18,7 @@ class ConsoleInput {
             val input = readLine() ?: ""
 
             if (validateText(input)) return input
-            println("❌ Nombre no válido")
+            println("Nombre no válido")
         }
     }
 
@@ -26,14 +26,19 @@ class ConsoleInput {
         val slots = mutableListOf<TimeSlot>()
 
         for (i in 1..6) {
-            println("Tramo horario $i")
-            print("Inicio: ")
-            val start = readLine() ?: ""
+            println("\nTramo horario $i")
 
-            print("Fin: ")
-            val end = readLine() ?: ""
+            while (true) {
+                val start = readValidTime("Inicio (HH:15): ")
+                val end = readValidTime("Fin (HH:15): ")
 
-            slots.add(TimeSlot(start, end))
+                if (isEndAfterStart(start, end)) {
+                    slots.add(TimeSlot(start, end))
+                    break
+                } else {
+                    println("La hora de fin debe ser posterior a la de inicio")
+                }
+            }
         }
 
         return slots
@@ -59,7 +64,7 @@ class ConsoleInput {
                         subjectsByDay[day] = subject
                         break
                     } else {
-                        println("❌ Texto no válido")
+                        println("Texto no válido")
                     }
                 }
             }
@@ -68,6 +73,28 @@ class ConsoleInput {
         }
 
         return result
+    }
+
+    private fun readValidTime(message: String): String {
+        val regex = Regex("""^([01]\d|2[0-3]):15$""")
+
+        while (true) {
+            print(message)
+            val input = readLine() ?: ""
+
+            if (regex.matches(input)) {
+                return input
+            } else {
+                println("Hora no válida. Debe ser HH:15 (ej: 08:15)")
+            }
+        }
+    }
+
+    private fun isEndAfterStart(start: String, end: String): Boolean {
+        val startHour = start.substring(0, 2).toInt()
+        val endHour = end.substring(0, 2).toInt()
+
+        return endHour > startHour
     }
 
     private fun validateText(value: String): Boolean {
