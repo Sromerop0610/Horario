@@ -10,9 +10,6 @@ repositories {
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
+    implementation("de.vandermeer:asciitable:0.3.2")
 }
 
-tasks.test {
-    useJUnitPlatform()
-}

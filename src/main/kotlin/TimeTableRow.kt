@@ -1,4 +1,4 @@
 class TimeTableRow (
     val timeSlot: TimeSlot,
-    val subjectsBySlot: Map<DayOfWeek, String>
+    val subjectsByDay: Map<DayOfWeek, String>
 )
